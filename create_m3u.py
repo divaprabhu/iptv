@@ -35,10 +35,11 @@ def add_line(row):
 with open("input/youtube.csv") as infile:
     reader = csv.reader(infile)
     for row in reader:
+        print(row)
         header = add_header(row)
         line = add_line(row)
+        print(header,line)
         if line is not None:
-            print(header, line)
             output.append(header)
             output.append(line)
 
