@@ -1,0 +1,19 @@
+#EXTINF:-1 tvg-id="BloombergTV" tvg-logo="https://i.imgur.com/OuogLHx.png" group-title="Business",Bloomberg TV Asia
+https://bloomberg.com/media-manifest/streams/asia.m3u8
+#EXTINF:-1 tvg-logo="https://i.ibb.co/KjjqnRH/Picsart-23-06-30-21-35-20-283.png" group-title="Entertainment",Sheemaroo Bollywood
+https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg00864-shemarooenterta-shemabollywood-ono/playlist.m3u8
+#EXTINF:-1 tvg-logo="" group-title="Entertainment",Bollywood HD
+https://d35j504z0x2vu2.cloudfront.net/v1/manifest/0bc8e8376bd8417a1b6761138aa41c26c7309312/bollywood-hd/43e99595-3ab3-4f82-a828-0d32dc308c98/0.m3u8
+#EXTINF:-1 tvg-logo="" group-title="Entertainment",Bollywood Classic HD
+https://d35j504z0x2vu2.cloudfront.net/v1/master/0bc8e8376bd8417a1b6761138aa41c26c7309312/bollywood-classic/manifest.m3u8
+#EXTINF:-1 tvg-logo="https://raw.githubusercontent.com/subirkumarpaul/Logo/main/Discovery%20.png" group-title="Science",Discovery HD Multi Audio
+https://raw.githubusercontent.com/subirkumarpaul/My-iptv/main/Discovery.m3u8
+#EXTINF:-1 tvg-logo="https://raw.githubusercontent.com/subirkumarpaul/Logo/main/Discovery%20Science%20.png" group-title="Science",Discovery Science Multi Audio
+https://raw.githubusercontent.com/subirkumarpaul/My-iptv/main/Discovery-Science.m3u8
+#EXTINF:-1 tvg-logo="https://upload.wikimedia.org/wikipedia/en/0/01/Gubbare-TV_channel.jpg" group-title="Kids" ,Gubbare
+https://epiconvh.s.llnwi.net/gubbare/master.m3u8
+#EXTINF:-1 tvg-logo="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdYDuOawIs57oT6PcXREjNLnVUF58DK9qrsQ&s"group-title="Kids",Jungle Book
+https://cc-4bhi5osabejc9.akamaized.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-4bhi5osabejc9/junglebook.m3u8
+
+
+
