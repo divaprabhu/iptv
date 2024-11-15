@@ -15,7 +15,6 @@ def add_header(row):
 
 def add_line(row):
     url = f'{row[URL]}'
-    print(url)
     response = requests.get(url).text
     end = response.find('.m3u8') + 5
     tuner = 100
@@ -49,4 +48,5 @@ with open("input/others.m3u") as others:
 with open("output/list.m3u", 'w') as outfile:
     print('#EXTM3U', file=outfile)
     for row in output:
+        print(row)
         print(row, file=outfile)
