@@ -38,6 +38,7 @@ with open("input/youtube.csv") as infile:
         header = add_header(row)
         line = add_line(row)
         if line is not None:
+            print(header, line)
             output.append(header)
             output.append(line)
 
@@ -45,10 +46,7 @@ with open("input/others.m3u") as others:
     for row in others:
         output.append(row.strip())
 
-print(output)
-
 with open("output/list.m3u", 'w') as outfile:
     print('#EXTM3U', file=outfile)
     for row in output:
-        print(row)
         print(row, file=outfile)
