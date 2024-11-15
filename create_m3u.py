@@ -46,7 +46,7 @@ with open("input/others.m3u") as others:
     for row in others:
         output.append(row)
 
-with open("output/youtube.m3u", 'w') as outfile:
+with open("output/list.m3u", 'w') as outfile:
     print('#EXTM3U', file=outfile)
     for row in output:
         print(row, file=outfile)
