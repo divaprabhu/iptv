@@ -1,10 +1,9 @@
 name: run script
 
 on:
-  schedule:
-    - cron: '17 1,4,7,10,13,16 * * *'
-
-  workflow_dispatch:
+   workflow_dispatch:
+   schedule:
+     - cron: "17 1,4,7,10,13,16 * * *"
 
 jobs:
   build:
