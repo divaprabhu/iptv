@@ -44,7 +44,7 @@ with open("input/youtube.csv") as infile:
 
 with open("input/others.m3u") as others:
     for row in others:
-        output.append(row)
+        output.append(row.strip())
 
 with open("output/list.m3u", 'w') as outfile:
     print('#EXTM3U', file=outfile)
