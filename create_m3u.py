@@ -15,7 +15,9 @@ def add_header(row):
 
 def add_line(row):
     url = f'{row[URL]}'
-    response = requests.get(url).text
+    response = requests.get(url)
+    print(url, response.code, response.status_code)
+    response = response.text
     if '.m3u8' in response:
         end = response.find('.m3u8') + 5
         tuner = 100
