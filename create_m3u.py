@@ -18,6 +18,9 @@ def add_line(row):
     url = f'{row[URL]}'
     response = requests.get(url)
     print(url, response.reason, response.status_code)
+    if response.status_code ==  200:
+        print(response.text)
+
     response = response.text
     if '.m3u8' in response:
         end = response.find('.m3u8') + 5
@@ -39,11 +42,8 @@ def add_line(row):
 with open("input/youtube.csv") as infile:
     reader = csv.reader(infile)
     for row in reader:
-        sleep(2)
-        print(row)
         header = add_header(row)
         line = add_line(row)
-        print(header,line)
         if line is not None:
             output.append(header)
             output.append(line)
