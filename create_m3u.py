@@ -29,7 +29,7 @@ def add_line(row):
                 tuner += 5
         return f"{link[start:end]}"
     else:
-        print(f"No m3u8 in response for {url}". response.find('.m3u8'))
+        print(f"No m3u8 in response for {url}", response.find('.m3u8'))
         return None
 
 
