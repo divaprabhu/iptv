@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  m3u:
+    image: m3u:latest   # use locally built image
+    container_name: m3u
+    build: .
+    ports:
+      - "9000-9100:9000-9100"
+    restart: unless-stopped
+    volumes:
+      - '/data/media:/pi'
