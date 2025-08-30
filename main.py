@@ -3,6 +3,7 @@ import time
 import re
 import os
 import yt_dlp
+import datetime
 
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
@@ -13,7 +14,7 @@ HOST = "0.0.0.0"
 BASE_PORT = 9001
 MEDIA_FOLDER = "/pi"
 M3U_FILE = "playlist.m3u"
-
+CURRENT_DATE=datetime.datetime.now()
 
 app = FastAPI()
 @app.get("/m3u")
@@ -36,25 +37,29 @@ YT_LIST = [
 ]
 
 YT_CHANNELS = [
-    ("BBC Earth", "https://www.youtube.com/@BBCEarthScience/live", "480"),
-    ("Science Channel", "https://www.youtube.com/@sciencechannel/live", "480"),
-    ("National Geographic", "https://www.youtube.com/@NatGeo/live", "480"),
-    ("DD Bharati", "https://www.youtube.com/@ddbharati/live", "480"),
-    ("DD News", "https://www.youtube.com/@DDnews/live", "480"),
-    ("NDTV 24x7", "https://www.youtube.com/@NDTV/live", "480"),
-    ("Firstpost", "https://www.youtube.com/@Firstpost/live", "480"),
-    ("Zee News", "https://www.youtube.com/@ZeeNews/live", "480"),
-    ("Aaj Tak", "https://www.youtube.com/@aajtak/live", "480"),
-    ("CNBC TV18", "https://www.youtube.com/@CNBC-TV18/live", "480"),
-    ("DD India", "https://www.youtube.com/@DDIndia/live", "480"),
-    ("Bloomberg", "https://www.youtube.com/bloombergpodcasts/live", "480"),
-    ("WION", "https://www.youtube.com/@WION/live", "480"),
-    ("TV9 Kannada", "https://www.youtube.com/@tv9kannada/live", "480"),
-    ("News18 Kannada", "https://www.youtube.com/@News18Kannada/live", "480"),
+    ("BBC Earth", "https://www.youtube.com/@BBCEarthScience/live", "360"),
+    ("Science Channel", "https://www.youtube.com/@sciencechannel/live", "360"),
+    ("National Geographic", "https://www.youtube.com/@NatGeo/live", "360"),
+    ("DD Bharati", "https://www.youtube.com/@ddbharati/live", "360"),
+    ("DD News", "https://www.youtube.com/@DDnews/live", "360"),
+    ("NDTV 24x7", "https://www.youtube.com/@NDTV/live", "360"),
+    ("Firstpost", "https://www.youtube.com/@Firstpost/live", "360"),
+    ("Zee News", "https://www.youtube.com/@ZeeNews/live", "360"),
+    ("Aaj Tak", "https://www.youtube.com/@aajtak/live", "360"),
+    ("CNBC TV18", "https://www.youtube.com/@CNBC-TV18/live", "360"),
+    ("DD India", "https://www.youtube.com/@DDIndia/live", "360"),
+    ("Bloomberg", "https://www.youtube.com/bloombergpodcasts/live", "360"),
+    ("WION", "https://www.youtube.com/@WION/live", "360"),
+    ("TV9 Kannada", "https://www.youtube.com/@tv9kannada/live", "360"),
+    ("News18 Kannada", "https://www.youtube.com/@News18Kannada/live", "360"),
 ]
 
 
 def get_youtube_playlist_url(name, url, res):
+    if current_date.weekday() != 6:  # weekday() returns 6 for Sunday
+        print("Today is Sunday!")
+        return
+        
     command = f"""yt-dlp --flat-playlist --get-id "{url}" | shuf -n 1 | xargs -I {{}} yt-dlp -f "best[height<=480][vcodec*=avc1]" "https://www.youtube.com/watch?v={{}}" -o {MEDIA_FOLDER}/{name}.mp4"""
 
     print(f"Playlist Command: {command}")
