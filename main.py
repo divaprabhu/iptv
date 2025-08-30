@@ -165,7 +165,7 @@ if __name__ == "__main__":
         else:
             print(f"{file_path} does not exist")
 
-        get_youtube_playlist_url(clean_name, url, res)
+        get_youtube_shorts_url(clean_name, url, res)
         time.sleep(30)
 
     with open(M3U_FILE, "w", encoding="utf-8") as f:
