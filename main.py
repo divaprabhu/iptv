@@ -33,7 +33,14 @@ YT_LIST = [
     ("Teen Titans", "https://www.youtube.com/playlist?list=PLcrApfnvcfVw8109V5oSIBQXZ9BRUmeCw", "480"),
     ("Shiva", "https://www.youtube.com/playlist?list=PL2XOPpYaVR4-o4gPiJB5Cplj0Zga10uW6", "480"),
     ("Rudra", "https://www.youtube.com/playlist?list=PL2XOPpYaVR4-KGjiEYPDP_NRE5HfgEATR", "480"),
-    ("Bhoot Boss", "https://www.youtube.com/playlist?list=PLAgLR8cSB8IIufPnNIbmrlGPcJubV08nZ", "480")
+    ("Bhoot Boss", "https://www.youtube.com/playlist?list=PLAgLR8cSB8IIufPnNIbmrlGPcJubV08nZ", "480"),
+    ("Abhimanyu", "https://www.youtube.com/playlist?list=PL2XOPpYaVR4_IgxOy6TwrD3JtdTqs1LsQ", "480"),
+    ("Chikoo", "https://www.youtube.com/playlist?list=PL2XOPpYaVR48o-sRPz3TKhic5FsXaUsdZ", "480"),
+    ("Ninja Hatori", "https://www.youtube.com/playlist?list=PL2XOPpYaVR48hwek3GPRCooGmuuop5xTg", "480"),
+]
+
+YT_SHORTS = [
+        ("Physics", "https://www.youtube.com/@Theory_of_Physics/shorts", "480")
 ]
 
 YT_CHANNELS = [
@@ -49,6 +56,7 @@ YT_CHANNELS = [
     ("CNBC TV18", "https://www.youtube.com/@CNBC-TV18/live", "360"),
     ("DD India", "https://www.youtube.com/@DDIndia/live", "360"),
     ("Bloomberg", "https://www.youtube.com/bloombergpodcasts/live", "360"),
+    ("Sky News", "https://www.youtube.com/@SkyNews/live", "360"),
     ("WION", "https://www.youtube.com/@WION/live", "360"),
     ("TV9 Kannada", "https://www.youtube.com/@tv9kannada/live", "360"),
     ("News18 Kannada", "https://www.youtube.com/@News18Kannada/live", "360"),
@@ -56,8 +64,8 @@ YT_CHANNELS = [
 
 
 def get_youtube_playlist_url(name, url, res):
-    if current_date.weekday() != 6:  # weekday() returns 6 for Sunday
-        print("Today is Sunday!")
+    if CURRENT_DATE.weekday() != 6:  # weekday() returns 6 for Sunday
+        print("Today is not Sunday. Skipping...")
         return
         
     command = f"""yt-dlp --flat-playlist --get-id "{url}" | shuf -n 1 | xargs -I {{}} yt-dlp -f "best[height<=480][vcodec*=avc1]" "https://www.youtube.com/watch?v={{}}" -o {MEDIA_FOLDER}/{name}.mp4"""
@@ -72,6 +80,25 @@ def get_youtube_playlist_url(name, url, res):
     print("Return code:", result.returncode)
     print("STDOUT:", result.stdout)
     print("STDERR:", result.stderr)
+
+def get_youtube_shorts_url(name, url, res):
+    if CURRENT_DATE.weekday() != 6:  # weekday() returns 6 for Sunday
+        print("Today is not Sunday. Skipping...")
+        return
+        
+    command = f"""yt-dlp --flat-playlist --get-id "{url}" | shuf -n 1 | xargs -I {{}} yt-dlp -f "best[height<=480][vcodec*=avc1]" "https://www.youtube.com/shorts/{{}}" -o {MEDIA_FOLDER}/{name}.mp4"""
+
+    print(f"Playlist Command: {command}")
+    result = subprocess.run(
+        command,
+        shell=True,  # The key change
+        capture_output=True,
+        text=True
+    )
+    print("Return code:", result.returncode)
+    print("STDOUT:", result.stdout)
+    print("STDERR:", result.stderr)
+
 
 def get_youtube_channel_url(name, url, res, port):
     command = [
@@ -127,6 +154,19 @@ if __name__ == "__main__":
         get_youtube_playlist_url(clean_name, url, res)
         time.sleep(30)
 
+    for name, url, res in YT_SHORTS:
+        clean_name = re.sub(PATTERN, '', name)
+
+        print(f"===> {clean_name} {url}")
+        file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            print(f"{file_path} deleted")
+        else:
+            print(f"{file_path} does not exist")
+
+        get_youtube_playlist_url(clean_name, url, res)
+        time.sleep(30)
 
     with open(M3U_FILE, "w", encoding="utf-8") as f:
         f.write("#EXTM3U\n")
