@@ -65,7 +65,6 @@ YT_CHANNELS = [
     ("ABC News", "https://www.youtube.com/@ABCNews/live"),
     ("TV9 Kannada", "https://www.youtube.com/@tv9kannada/live"),
     ("News18 Kannada", "https://www.youtube.com/@News18Kannada/live"),
-    ("PB Sports", "https://www.youtube.com/@PrasarBharatiSports/live"),
 ]
 
 
