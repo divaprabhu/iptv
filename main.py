@@ -1,0 +1,209 @@
+import time
+import re
+import os
+import yt_dlp
+import random
+import sys
+
+from fastapi import FastAPI
+from fastapi.responses import FileResponse
+import uvicorn
+
+PATTERN = r'[^a-zA-Z0-9]'
+HOST = "0.0.0.0"
+M3U_PORT = 9000
+KIDS_PORT = 9001
+MEDIA_FOLDER = "/pi"
+M3U_FILE = "playlist.m3u"
+
+app = FastAPI()
+@app.get("/m3u")
+def serve_m3u():
+    return FileResponse(path=M3U_FILE, filename=M3U_FILE, media_type="audio/x-mpegurl")
+
+@app.get("/kids")
+def serve_kids():
+    return FileResponse(path=M3U_FILE, filename=M3U_FILE, media_type="audio/x-mpegurl")
+
+YT_LIST = [
+    ("Little Singham", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNSSDIe5dp3v204zqhUJp-b2", "480"),
+    ("Chhota Bheem", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNTgFEWOlBzE3rwLYnpPqFvH", "480"),
+    ("Titoo", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNSHsuxsnjuL3BOsPGXuMDie", "480"),
+    ("Little Krishna", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNQjNcHaHwOmIYv5z1bUbZJS", "480"),
+    ("Teen Titans", "https://www.youtube.com/playlist?list=PLcrApfnvcfVw8109V5oSIBQXZ9BRUmeCw", "480"),
+    ("Shiva", "https://www.youtube.com/playlist?list=PL2XOPpYaVR48iCLqDECEd3i3jWLHOq0_2", "480"),
+    ("Rudra", "https://www.youtube.com/playlist?list=PL2XOPpYaVR4-KGjiEYPDP_NRE5HfgEATR", "480"),
+    ("Bhoot Boss", "https://www.youtube.com/playlist?list=PLAgLR8cSB8ILSfgMZ3hBOhbX2xFJWo8a_", "480"),
+    ("Chikoo", "https://www.youtube.com/playlist?list=PL2XOPpYaVR48o-sRPz3TKhic5FsXaUsdZ", "480"),
+    ("Ninja Hatori", "https://www.youtube.com/playlist?list=PL2XOPpYaVR48hwek3GPRCooGmuuop5xTg", "480"),
+    ("Kicko", "https://www.youtube.com/playlist?list=PLjVIMJjREH-SmAXZ9WvZmispI9kLXfsAL", "480"),
+    ("Mr Bean", "https://www.youtube.com/playlist?list=PLwIV8SNgQyXGhQCAzcP1DmWJ4QbwNmWv3", "480"),
+    ("Mr Bean Classic", "https://www.youtube.com/playlist?list=PLC1EDzqtkrh8Pta-kBwb-hrDJKkUTfirz", "480"),
+    ("Masha and the Bear", "https://www.youtube.com/playlist?list=PL-yqdhzdKqQRAm93SDGOtPK8KIe2QZQTO", "480"),
+]
+
+YT_SHORTS = [
+        ("Physics", "https://www.youtube.com/@Theory_of_Physics/shorts", "1080")
+]
+
+YT_CHANNELS = [
+    ("National Geographic", "https://www.youtube.com/@NatGeo/live"),
+    ("DD Bharati", "https://www.youtube.com/@ddbharati/live"),
+    ("DD News", "https://www.youtube.com/@DDnews/live"),
+    ("NDTV 24x7", "https://www.youtube.com/@NDTV/live"),
+    ("Zee News", "https://www.youtube.com/watch?v=WquRAK-XoV4"),
+    ("Aaj Tak", "https://www.youtube.com/watch?v=Nq2wYlWFucg"),
+    ("CNBC TV18", "https://www.youtube.com/watch?v=P857H4ej-MQ"),
+    ("CNBC Awaaz", "https://www.youtube.com/watch?v=dnQ1M21Z5Tw"),
+    ("NDTV Profit", "https://www.youtube.com/@NDTVProfitIndia/live"),
+    ("Bloomberg TV", "https://www.youtube.com/@markets/live"),
+    ("Bloomberg Originals", "https://www.youtube.com/@business/live"),
+    ("DD India", "https://www.youtube.com/@DDIndia/live"),
+    ("WION", "https://www.youtube.com/watch?v=JnttcoZFFI8"),
+    ("ABC News", "https://www.youtube.com/@ABCNews/live"),
+    ("DW News", "https://www.youtube.com/@dwnews/live"),
+    ("TV9 Kannada", "https://www.youtube.com/watch?v=jdJoOhqCipA"),
+    ("News18 Kannada", "https://www.youtube.com/watch?v=st7fBmW20MU"),
+]
+
+
+def process_youtube_playlist(name, url, res):
+    video_id = None
+    ytdl_opts = {
+        "quiet": True,           # don’t spam logs
+        "skip_download": True,   # don’t download video
+        "extract_flat": True,    # don’t go deep into formats,
+        "match_filter": yt_dlp.utils.match_filter_func("duration >= 300"),
+    }
+    with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
+        info = ydl.extract_info(url, download=False)
+        video_ids = [entry['id'] for entry in info['entries'] if entry]
+        video_id = random.choice(video_ids)
+        print(f"===> Selected Video ID: {video_id} out of {len(video_ids)} videos")
+
+    if not video_id:
+        print(f"===> Could not extract video id")
+        return
+    
+
+    ytdl_opts = {
+        "quiet": True,           # don’t spam logs
+        "format": f"best[height<={res}]", # equivalent of -f
+        'outtmpl': f"{MEDIA_FOLDER}/{name}.mp4", # equivalent of -o
+        "overwrites": True,      # force overwrite existing files
+        "ignoreerrors": True,   # skip unavailable/private/deleted videos
+    }  
+    with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
+        rc = ydl.download(f"https://www.youtube.com/watch?v={video_id}")
+        if rc == 0:
+            print(f"\n===> Completed Download")
+        else:
+            print(f"\n===> Download failed with return code: {rc}")   
+
+def process_youtube_shorts(name, url, res):
+    video_id = None
+    ytdl_opts = {
+        "quiet": True,           # don’t spam logs
+        "skip_download": True,   # don’t download video
+        "extract_flat": True,    # don’t go deep into formats,
+    }
+    with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
+        info = ydl.extract_info(url, download=False)
+        video_ids = [entry['id'] for entry in info['entries'] if entry]
+        video_id = random.choice(video_ids)
+        print(f"===> Selected Video ID: {video_id} out of {len(video_ids)} videos")
+
+    if not video_id:
+        print(f"===> Could not extract video id")
+        return
+    
+
+    ytdl_opts = {
+        "quiet": True,           # don’t spam logs
+        "format": f"best[height<={res}]", # equivalent of -f
+        'outtmpl': f"{MEDIA_FOLDER}/{name}.mp4", # equivalent of -o
+        "overwrites": True,      # force overwrite existing files
+        "ignoreerrors": True,   # skip unavailable/private/deleted videos
+        "match_filter": yt_dlp.utils.match_filter_func("duration >= 300"),
+    }  
+    with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
+        rc = ydl.download(f"https://www.youtube.com/shorts/{video_id}")   
+        if rc == 0:
+            print(f"\n===> Completed Download")
+        else:
+            print(f"\n===> Download failed with return code: {rc}")   
+
+
+def process_youtube_channel(name, url):
+    video_id = None
+    m3u_entry = []
+
+    ytdl_opts = {
+        "quiet": True,           # don’t spam logs
+        "skip_download": True,   # don’t download video
+        "extract_flat": True,    # don’t go deep into formats
+        "ignoreerrors": True,    # skip unavailable/private/deleted videos
+    }
+    with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
+        info = ydl.extract_info(url, download=False)
+        print(info)
+        if 'id' in info:
+            video_id = info['id']
+        else:
+            print(f"Either No Info or No Entries")
+            return []
+
+        print(f"Latest Video ID: {video_id} selected for the channel")
+        mu3_entry = [
+            f'#EXTINF:-1 tvg-id="{name}" group-title="Live Streams",{name}\n',
+            f"plugin://plugin.video.youtube/play/?video_id={video_id}\n"
+        ]
+        print(f"===> M3U Entry: {mu3_entry}")
+        return mu3_entry
+
+if __name__ == "__main__":
+    print("\nStarting the process\n")
+
+    if len(sys.argv) < 2:
+        print("No argument provided. Please provide an argument: 'kids' or 'm3u'.")
+        sys.exit(1)
+
+    mode = sys.argv[1]
+ 
+    if mode == "kids":
+
+        for name, url, res in YT_LIST:
+            clean_name = re.sub(PATTERN, '', name)
+
+            print(f"<=== {clean_name} {url}")
+            file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
+            process_youtube_playlist(clean_name, url, res)
+            time.sleep(5)
+
+        for name, url, res in YT_SHORTS:
+            clean_name = re.sub(PATTERN, '', name)
+
+            print(f"<=== {clean_name} {url}")
+            file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
+            process_youtube_shorts(clean_name, url, res)
+            time.sleep(5)
+
+        uvicorn.run(app, host=HOST, port=KIDS_PORT)
+
+    elif mode == 'm3u':
+        with open(M3U_FILE, "w", encoding="utf-8") as f:
+            f.write("#EXTM3U\n")
+            for name, url in YT_CHANNELS:
+                print(f"<=== {name} {url}")
+                entries = process_youtube_channel(name, url)
+                for line in entries:
+                    f.write(line)
+                print(f"<=== Added m3u8 for {name}")
+
+            print(f"<=== M3U File Created")
+
+        uvicorn.run(app, host=HOST, port=M3U_PORT)
+
+    else:
+        print("Invalid argument provided. Please provide an argument: 'kids' or 'm3u'.")
+        sys.exit(1)

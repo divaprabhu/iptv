@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  kids:
+    image: kids:latest   # use locally built image
+    container_name: kids
+    build: .
+    ports:
+      - "9001:9001"
+    command: ["python", "main.py", "kids"]
+    restart: unless-stopped
+    volumes:
+      - '/data/media:/pi'
+
+  m3u:
+    image: m3u:latest   # use locally built image
+    container_name: m3u
+    build: .
+    ports:
+      - "9000:9000"
+    command: ["python", "main.py", "m3u"]
+    restart: unless-stopped
+    volumes:
+      - '/data/media:/pi'
