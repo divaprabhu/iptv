@@ -1,10 +1,11 @@
 import time
 import re
 import os
-import yt_dlp
 import random
 import sys
+import logging
 
+import yt_dlp
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 import uvicorn
@@ -14,6 +15,9 @@ HOST = "0.0.0.0"
 M3U_PORT = 9000
 MEDIA_FOLDER = "/pi"
 M3U_FILE = "playlist.m3u"
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 app = FastAPI()
 @app.get("/m3u")
@@ -74,10 +78,10 @@ def process_youtube_playlist(name, url, res):
         info = ydl.extract_info(url, download=False)
         video_ids = [entry['id'] for entry in info['entries'] if entry]
         video_id = random.choice(video_ids)
-        print(f"===> Selected Video ID: {video_id} out of {len(video_ids)} videos")
+        logger.info(f"===> Selected Video ID: {video_id} out of {len(video_ids)} videos")
 
     if not video_id:
-        print(f"===> Could not extract video id")
+        logger.info(f"===> Could not extract video id")
         return
     
 
@@ -91,9 +95,9 @@ def process_youtube_playlist(name, url, res):
     with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
         rc = ydl.download(f"https://www.youtube.com/watch?v={video_id}")
         if rc == 0:
-            print(f"\n===> Completed Download")
+            logger.info(f"\n===> Completed Download")
         else:
-            print(f"\n===> Download failed with return code: {rc}")   
+            logger.info(f"\n===> Download failed with return code: {rc}")   
 
 def process_youtube_shorts(name, url, res):
     video_id = None
@@ -106,10 +110,10 @@ def process_youtube_shorts(name, url, res):
         info = ydl.extract_info(url, download=False)
         video_ids = [entry['id'] for entry in info['entries'] if entry]
         video_id = random.choice(video_ids)
-        print(f"===> Selected Video ID: {video_id} out of {len(video_ids)} videos")
+        logger.info(f"===> Selected Video ID: {video_id} out of {len(video_ids)} videos")
 
     if not video_id:
-        print(f"===> Could not extract video id")
+        logger.info(f"===> Could not extract video id")
         return
     
 
@@ -124,9 +128,9 @@ def process_youtube_shorts(name, url, res):
     with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
         rc = ydl.download(f"https://www.youtube.com/shorts/{video_id}")   
         if rc == 0:
-            print(f"\n===> Completed Download")
+            logger.info(f"\n===> Completed Download")
         else:
-            print(f"\n===> Download failed with return code: {rc}")   
+            logger.info(f"\n===> Download failed with return code: {rc}")   
 
 
 def process_youtube_channel(name, url):
@@ -144,24 +148,24 @@ def process_youtube_channel(name, url):
         if 'id' in info:
             video_id = info['id']
         else:
-            print(f"Either No Info or No Entries")
+            logger.info(f"Either No Info or No Entries")
             return []
 
-        print(f"Latest Video ID: {video_id} selected for the channel")
+        logger.info(f"Latest Video ID: {video_id} selected for the channel")
         mu3_entry = [
             f'#EXTINF:-1 tvg-id="{name}" group-title="Live Streams",{name}\n',
             f"plugin://plugin.video.youtube/play/?video_id={video_id}\n"
         ]
-        print(f"===> M3U Entry: {mu3_entry}")
+        logger.info(f"===> M3U Entry: {mu3_entry}")
         return mu3_entry
 
 if __name__ == "__main__":
-    print("\nStarting the process\n")
+    logger.info("\nStarting the process\n")
  
     name, url, res = random.choice(YT_LIST)
     clean_name = re.sub(PATTERN, '', name)
 
-    print(f"<=== {clean_name} {url}")
+    logger.info(f"<=== {clean_name} {url}")
     file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
     process_youtube_playlist(clean_name, url, res)
     time.sleep(5)
@@ -169,7 +173,7 @@ if __name__ == "__main__":
     name, url, res = random.choice(YT_SHORTS)
     clean_name = re.sub(PATTERN, '', name)
 
-    print(f"<=== {clean_name} {url}")
+    logger.info(f"<=== {clean_name} {url}")
     file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
     process_youtube_shorts(clean_name, url, res)
     time.sleep(5)
@@ -177,12 +181,12 @@ if __name__ == "__main__":
     with open(M3U_FILE, "w", encoding="utf-8") as f:
         f.write("#EXTM3U\n")
         for name, url in YT_CHANNELS:
-            print(f"<=== {name} {url}")
+            logger.info(f"<=== {name} {url}")
             entries = process_youtube_channel(name, url)
             for line in entries:
                 f.write(line)
-            print(f"<=== Added m3u8 for {name}")
+            logger.info(f"<=== Added m3u8 for {name}")
 
-        print(f"<=== M3U File Created")
+        logger.info(f"<=== M3U File Created")
 
     uvicorn.run(app, host=HOST, port=M3U_PORT)
