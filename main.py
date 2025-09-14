@@ -91,6 +91,7 @@ def process_youtube_playlist(name, url, res):
         'outtmpl': f"{MEDIA_FOLDER}/{name}.mp4", # equivalent of -o
         "overwrites": True,      # force overwrite existing files
         "ignoreerrors": True,   # skip unavailable/private/deleted videos
+        "match_filter": yt_dlp.utils.match_filter_func("duration >= 300"),
     }  
     with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
         rc = ydl.download(f"https://www.youtube.com/watch?v={video_id}")
@@ -123,7 +124,6 @@ def process_youtube_shorts(name, url, res):
         'outtmpl': f"{MEDIA_FOLDER}/{name}.mp4", # equivalent of -o
         "overwrites": True,      # force overwrite existing files
         "ignoreerrors": True,   # skip unavailable/private/deleted videos
-        "match_filter": yt_dlp.utils.match_filter_func("duration >= 300"),
     }  
     with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
         rc = ydl.download(f"https://www.youtube.com/shorts/{video_id}")   
