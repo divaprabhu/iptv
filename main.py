@@ -141,7 +141,6 @@ def process_youtube_channel(name, url):
     }
     with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
         info = ydl.extract_info(url, download=False)
-        print(info)
         if 'id' in info:
             video_id = info['id']
         else:
