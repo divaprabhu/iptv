@@ -95,9 +95,9 @@ def process_youtube_playlist(name, url, res):
     with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
         rc = ydl.download(f"https://www.youtube.com/watch?v={video_id}")
         if rc == 0:
-            logger.info(f"\n===> Completed Download")
+            logger.info(f"===> Completed Download")
         else:
-            logger.info(f"\n===> Download failed with return code: {rc}")   
+            logger.info(f"===> Download failed with return code: {rc}")   
 
 def process_youtube_shorts(name, url, res):
     video_id = None
@@ -128,9 +128,9 @@ def process_youtube_shorts(name, url, res):
     with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
         rc = ydl.download(f"https://www.youtube.com/shorts/{video_id}")   
         if rc == 0:
-            logger.info(f"\n===> Completed Download")
+            logger.info(f"===> Completed Download")
         else:
-            logger.info(f"\n===> Download failed with return code: {rc}")   
+            logger.info(f"===> Download failed with return code: {rc}")   
 
 
 def process_youtube_channel(name, url):
@@ -160,7 +160,7 @@ def process_youtube_channel(name, url):
         return mu3_entry
 
 if __name__ == "__main__":
-    logger.info("\nStarting the process\n")
+    logger.info("Starting the process\n")
  
     name, url, res = random.choice(YT_LIST)
     clean_name = re.sub(PATTERN, '', name)
