@@ -47,21 +47,17 @@ YT_SHORTS = [
 ]
 
 YT_CHANNELS = [
-    ("National Geographic", "https://www.youtube.com/@NatGeo/live"),
     ("DD Bharati", "https://www.youtube.com/@ddbharati/live"),
     ("DD News", "https://www.youtube.com/@DDnews/live"),
     ("NDTV 24x7", "https://www.youtube.com/@NDTV/live"),
     ("Zee News", "https://www.youtube.com/watch?v=WquRAK-XoV4"),
     ("Aaj Tak", "https://www.youtube.com/watch?v=Nq2wYlWFucg"),
+    ("India Today", "https://www.youtube.com/watch?v=sYZtOFzM78M"),
     ("CNBC TV18", "https://www.youtube.com/watch?v=P857H4ej-MQ"),
     ("CNBC Awaaz", "https://www.youtube.com/watch?v=dnQ1M21Z5Tw"),
-    ("NDTV Profit", "https://www.youtube.com/@NDTVProfitIndia/live"),
-    ("Bloomberg TV", "https://www.youtube.com/@markets/live"),
-    ("Bloomberg Originals", "https://www.youtube.com/@business/live"),
+    ("Zee Business", "https://www.youtube.com/zeebusiness/live"),
     ("DD India", "https://www.youtube.com/@DDIndia/live"),
     ("WION", "https://www.youtube.com/watch?v=JnttcoZFFI8"),
-    ("ABC News", "https://www.youtube.com/@ABCNews/live"),
-    ("DW News", "https://www.youtube.com/@dwnews/live"),
     ("TV9 Kannada", "https://www.youtube.com/watch?v=jdJoOhqCipA"),
     ("News18 Kannada", "https://www.youtube.com/watch?v=st7fBmW20MU"),
 ]
