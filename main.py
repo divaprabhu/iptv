@@ -12,7 +12,6 @@ import uvicorn
 PATTERN = r'[^a-zA-Z0-9]'
 HOST = "0.0.0.0"
 M3U_PORT = 9000
-KIDS_PORT = 9001
 MEDIA_FOLDER = "/pi"
 M3U_FILE = "playlist.m3u"
 
@@ -159,47 +158,32 @@ def process_youtube_channel(name, url):
 
 if __name__ == "__main__":
     print("\nStarting the process\n")
-
-    if len(sys.argv) < 2:
-        print("No argument provided. Please provide an argument: 'kids' or 'm3u'.")
-        sys.exit(1)
-
-    mode = sys.argv[1]
  
-    if mode == "kids":
+    name, url, res = random.choice(YT_LIST)
+    clean_name = re.sub(PATTERN, '', name)
 
-        for name, url, res in YT_LIST:
-            clean_name = re.sub(PATTERN, '', name)
+    print(f"<=== {clean_name} {url}")
+    file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
+    process_youtube_playlist(clean_name, url, res)
+    time.sleep(5)
 
-            print(f"<=== {clean_name} {url}")
-            file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
-            process_youtube_playlist(clean_name, url, res)
-            time.sleep(5)
+    name, url, res = random.choice(YT_SHORTS)
+    clean_name = re.sub(PATTERN, '', name)
 
-        for name, url, res in YT_SHORTS:
-            clean_name = re.sub(PATTERN, '', name)
+    print(f"<=== {clean_name} {url}")
+    file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
+    process_youtube_shorts(clean_name, url, res)
+    time.sleep(5)
+    
+    with open(M3U_FILE, "w", encoding="utf-8") as f:
+        f.write("#EXTM3U\n")
+        for name, url in YT_CHANNELS:
+            print(f"<=== {name} {url}")
+            entries = process_youtube_channel(name, url)
+            for line in entries:
+                f.write(line)
+            print(f"<=== Added m3u8 for {name}")
 
-            print(f"<=== {clean_name} {url}")
-            file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
-            process_youtube_shorts(clean_name, url, res)
-            time.sleep(5)
+        print(f"<=== M3U File Created")
 
-        uvicorn.run(app, host=HOST, port=KIDS_PORT)
-
-    elif mode == 'm3u':
-        with open(M3U_FILE, "w", encoding="utf-8") as f:
-            f.write("#EXTM3U\n")
-            for name, url in YT_CHANNELS:
-                print(f"<=== {name} {url}")
-                entries = process_youtube_channel(name, url)
-                for line in entries:
-                    f.write(line)
-                print(f"<=== Added m3u8 for {name}")
-
-            print(f"<=== M3U File Created")
-
-        uvicorn.run(app, host=HOST, port=M3U_PORT)
-
-    else:
-        print("Invalid argument provided. Please provide an argument: 'kids' or 'm3u'.")
-        sys.exit(1)
+    uvicorn.run(app, host=HOST, port=M3U_PORT)

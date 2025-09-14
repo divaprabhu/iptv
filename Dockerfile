@@ -11,7 +11,7 @@ COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose the ports for FastAPI and Streamlink
-EXPOSE 9000-9001:9000-9001
+EXPOSE 9000:9000
 
 # Command to run the FastAPI application
 CMD ["python", "main.py"]
