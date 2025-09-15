@@ -170,13 +170,13 @@ if __name__ == "__main__":
     process_youtube_playlist(clean_name, url, res)
     time.sleep(5)
 
-    name, url, res = random.choice(YT_SHORTS)
-    clean_name = re.sub(PATTERN, '', name)
+    # name, url, res = random.choice(YT_SHORTS)
+    # clean_name = re.sub(PATTERN, '', name)
 
-    logger.info(f"<=== {clean_name} {url}")
-    file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
-    process_youtube_shorts(clean_name, url, res)
-    time.sleep(5)
+    # logger.info(f"<=== {clean_name} {url}")
+    # file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
+    # process_youtube_shorts(clean_name, url, res)
+    # time.sleep(5)
     
     with open(M3U_FILE, "w", encoding="utf-8") as f:
         f.write("#EXTM3U\n")
