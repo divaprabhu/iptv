@@ -43,6 +43,8 @@ YT_LIST = [
     ("Mr Bean", "https://www.youtube.com/playlist?list=PLwIV8SNgQyXGhQCAzcP1DmWJ4QbwNmWv3", "480"),
     ("Mr Bean Classic", "https://www.youtube.com/playlist?list=PLC1EDzqtkrh8Pta-kBwb-hrDJKkUTfirz", "480"),
     ("Masha and the Bear", "https://www.youtube.com/playlist?list=PL-yqdhzdKqQRAm93SDGOtPK8KIe2QZQTO", "480"),
+    ("Abhimanyu", "https://www.youtube.com/playlist?list=PLAepapbv7F5DBWSxLxUNnMSE3Q7lwKsSW", "480"),
+    ("Motu Patlu", "https://www.youtube.com/playlist?list=PLRbgYr_kkJFk0oAYeSLwSkye342dv7Zht", "480"),
 ]
 
 YT_SHORTS = [
