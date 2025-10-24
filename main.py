@@ -13,7 +13,7 @@ import uvicorn
 PATTERN = r'[^a-zA-Z0-9]'
 HOST = "0.0.0.0"
 M3U_PORT = 9000
-MEDIA_FOLDER = "/pi"
+MEDIA_FOLDER = "pi"
 M3U_FILE = "playlist.m3u"
 
 logger = logging.getLogger(__name__)
@@ -29,12 +29,11 @@ def serve_kids():
     return FileResponse(path=M3U_FILE, filename=M3U_FILE, media_type="audio/x-mpegurl")
 
 YT_LIST = [
-    ("Little Singham", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNSSDIe5dp3v204zqhUJp-b2", "480"),
-    ("Chhota Bheem", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNTgFEWOlBzE3rwLYnpPqFvH", "480"),
+    ("Chhota Bheem", "https://www.youtube.com/playlist?list=PL0rMr_qVm_FI9ELiYrqK7jk9JjTgIdmoA", "480"),
     ("Titoo", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNSHsuxsnjuL3BOsPGXuMDie", "480"),
     ("Little Krishna", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNQjNcHaHwOmIYv5z1bUbZJS", "480"),
     ("Teen Titans", "https://www.youtube.com/playlist?list=PLcrApfnvcfVw8109V5oSIBQXZ9BRUmeCw", "480"),
-    ("Shiva", "https://www.youtube.com/playlist?list=PL2XOPpYaVR48iCLqDECEd3i3jWLHOq0_2", "480"),
+    ("Shiva", "https://www.youtube.com/playlist?list=PLAepapbv7F5Cim-FG2XDlG65Oj7kRtVdf", "480"),
     ("Rudra", "https://www.youtube.com/playlist?list=PL2iQy8b-6D1Rdcm5ETFpBSqo7K-MXvZ4g", "480"),
     ("Bhoot Boss", "https://www.youtube.com/playlist?list=PLAgLR8cSB8ILSfgMZ3hBOhbX2xFJWo8a_", "480"),
     ("Chikoo", "https://www.youtube.com/playlist?list=PL2XOPpYaVR48o-sRPz3TKhic5FsXaUsdZ", "480"),
@@ -45,6 +44,8 @@ YT_LIST = [
     ("Masha and the Bear", "https://www.youtube.com/playlist?list=PL-yqdhzdKqQRAm93SDGOtPK8KIe2QZQTO", "480"),
     ("Abhimanyu", "https://www.youtube.com/playlist?list=PLAepapbv7F5DBWSxLxUNnMSE3Q7lwKsSW", "480"),
     ("Motu Patlu", "https://www.youtube.com/playlist?list=PLRbgYr_kkJFk0oAYeSLwSkye342dv7Zht", "480"),
+    ("Budh Aur Badri", "https://www.youtube.com/playlist?list=PL-4vjtQdv9wMAbt6Q2lmR4V2h4gtg_99X", "480"),
+    ("Fukrey Boyzzz", "https://www.youtube.com/playlist?list=PLKRxH8XztcuDemtJvUcFSdHu27uR1zt8l", "480")
 ]
 
 YT_SHORTS = [
