@@ -95,7 +95,8 @@ def process_youtube_playlist(name, url, res):
         "overwrites": True,      # force overwrite existing files
         "ignoreerrors": True,   # skip unavailable/private/deleted videos
         "match_filter": yt_dlp.utils.match_filter_func("duration >= 300"),
-    }  
+    }
+    print(f"Options: {ytdl_opts}")
     with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
         rc = ydl.download(f"https://www.youtube.com/watch?v={video_id}")
         if rc == 0:
