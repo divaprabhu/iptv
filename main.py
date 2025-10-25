@@ -13,7 +13,7 @@ import uvicorn
 PATTERN = r'[^a-zA-Z0-9]'
 HOST = "0.0.0.0"
 M3U_PORT = 9000
-MEDIA_FOLDER = "pi"
+MEDIA_FOLDER = "/pi"
 M3U_FILE = "playlist.m3u"
 
 logger = logging.getLogger(__name__)
