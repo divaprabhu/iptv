@@ -45,7 +45,8 @@ YT_LIST = [
     ("Abhimanyu", "https://www.youtube.com/playlist?list=PLAepapbv7F5DBWSxLxUNnMSE3Q7lwKsSW", "480"),
     ("Motu Patlu", "https://www.youtube.com/playlist?list=PLRbgYr_kkJFk0oAYeSLwSkye342dv7Zht", "480"),
     ("Budh Aur Badri", "https://www.youtube.com/playlist?list=PL-4vjtQdv9wMAbt6Q2lmR4V2h4gtg_99X", "480"),
-    ("Fukrey Boyzzz", "https://www.youtube.com/playlist?list=PLKRxH8XztcuDemtJvUcFSdHu27uR1zt8l", "480")
+    ("Fukrey Boyzzz", "https://www.youtube.com/playlist?list=PLKRxH8XztcuDemtJvUcFSdHu27uR1zt8l", "480"),
+    ("Detective Mehul", "https://www.youtube.com/@MindYourLogic.Riddles/videos", "480"),
 ]
 
 YT_SHORTS = [
