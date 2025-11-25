@@ -111,8 +111,7 @@ def process_youtube_shorts(name, url, res):
         info = ydl.extract_info(url, download=False)
         video_ids = [entry['id'] for entry in info['entries'] if entry]
         video_id = random.choice(video_ids)
-        logger.info(f"===> Selected Video ID: {
-                    video_id} out of {len(video_ids)} videos")
+        logger.info(f"===> Selected Video ID: {video_id} out of {len(video_ids)} videos")
 
     if not video_id:
         logger.info("===> Could not extract video id")
