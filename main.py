@@ -162,9 +162,9 @@ if __name__ == "__main__":
     logger.info("Starting the process\n")
 
     today = datetime.today()
-    odd_even = today.day % 2
+    rem = today.day % 3
 
-    for name, url, res in YT_LIST[odd_even::2]:
+    for name, url, res in YT_LIST[rem::3]:
         clean_name = re.sub(PATTERN, '', name)
 
         logger.info(f"<=== {clean_name} {url}")
