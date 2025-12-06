@@ -12,7 +12,7 @@ import uvicorn
 PATTERN = r'[^a-zA-Z0-9]'
 HOST = "0.0.0.0"
 M3U_PORT = 9000
-MEDIA_FOLDER = "/pi"
+MEDIA_FOLDER = "/data/media"
 M3U_FILE = "playlist.m3u"
 
 logger = logging.getLogger(__name__)
@@ -180,15 +180,15 @@ if __name__ == "__main__":
     # process_youtube_shorts(clean_name, url, res)
     # time.sleep(5)
 
-    with open(M3U_FILE, "w", encoding="utf-8") as f:
-        f.write("#EXTM3U\n")
-        for name, url in YT_CHANNELS:
-            logger.info(f"<=== {name} {url}")
-            entries = process_youtube_channel(name, url)
-            for line in entries:
-                f.write(line)
-                logger.info(f"<=== Added m3u8 for {name}")
+    # with open(M3U_FILE, "w", encoding="utf-8") as f:
+    #     f.write("#EXTM3U\n")
+    #     for name, url in YT_CHANNELS:
+    #         logger.info(f"<=== {name} {url}")
+    #         entries = process_youtube_channel(name, url)
+    #         for line in entries:
+    #             f.write(line)
+    #             logger.info(f"<=== Added m3u8 for {name}")
 
-        logger.info("<=== M3U File Created")
+    #     logger.info("<=== M3U File Created")
 
-    uvicorn.run(app, host=HOST, port=M3U_PORT)
+    # uvicorn.run(app, host=HOST, port=M3U_PORT)

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   m3u:
     image: m3u:latest   # use locally built image
