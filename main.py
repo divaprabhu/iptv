@@ -170,7 +170,7 @@ if __name__ == "__main__":
         logger.info(f"<=== {clean_name} {url}")
         file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
         process_youtube_playlist(clean_name, url, res)
-        time.sleep(5)
+        time.sleep(300)
 
     # name, url, res = random.choice(YT_SHORTS)
     # clean_name = re.sub(PATTERN, '', name)
