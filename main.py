@@ -5,9 +5,6 @@ import logging
 from datetime import datetime
 
 import yt_dlp
-from fastapi import FastAPI
-from fastapi.responses import FileResponse
-import uvicorn
 
 PATTERN = r'[^a-zA-Z0-9]'
 HOST = "0.0.0.0"
@@ -18,35 +15,21 @@ M3U_FILE = "playlist.m3u"
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-app = FastAPI()
 
-
-@app.get("/m3u")
-def serve_m3u():
-    return FileResponse(path=M3U_FILE, filename=M3U_FILE, media_type="audio/x-mpegurl")
-
-
-@app.get("/kids")
-def serve_kids():
-    return FileResponse(path=M3U_FILE, filename=M3U_FILE, media_type="audio/x-mpegurl")
-
-
+RES="720"
 YT_LIST = [
-    ("Green Gold Kids", "https://www.youtube.com/@GreenGoldKids/videos", "480"),
-    ("Pogo", "https://www.youtube.com/@PogoChannel/videos", "480"),
-    ("Sonig Gang", "https://www.youtube.com/@Sonic-Gang/videos", "480"),
-    ("Rudra", "https://www.youtube.com/@Rudra-SonicGang/videos", "480"),
-    ("Kids Galaxy", "https://www.youtube.com/@KidsGalaxyYT/videos", "480"),
-    ("Ninja Hatori", "https://www.youtube.com/@Ninja_Hattori_SonicGang/videos", "480"),
-    ("Yo Kids", "https://www.youtube.com/@yokidscartoon-c8h/videos", "480"),
-    ("Masha and the Bear", "https://www.youtube.com/@MashaBearEN/videos", "480"),
-    ("Hotstar Kids", "https://www.youtube.com/@jio_hotstar_kids/videos", "480"),
-    ("Discovery", "https://www.youtube.com/@DiscoveryKidsIN/videos", "480"),
-    ("Detective Mehul", "https://www.youtube.com/@MindYourLogic.Riddles/videos", "480"),
+    ("Curios George", "https://www.youtube.com/@CuriousGeorge/videos"),
+    ("Detective Mehul", "https://www.youtube.com/@MindYourLogic.Riddles/videos"),
+    ("Masha and the Bear", "https://www.youtube.com/@MashaBearEN/videos"),
+    ("Cartoon Network", "https://www.youtube.com/@cnindia/videos"),
+    ("Discovery", "https://www.youtube.com/@DiscoveryKidsIN/videos"),
+    ("Sony", "https://www.youtube.com/@SonyYAY/videos"),
+    ("Wow", "https://www.youtube.com/@WowKidzOfficialTV/videos"),
+    ("Bajarangi", "https://www.youtube.com/playlist?list=PLxfg7jK0uMj6xdhbuB62QBd08BzMNlP5q"),
 ]
 
 YT_SHORTS = [
-    ("Physics", "https://www.youtube.com/@Theory_of_Physics/shorts", "1080")
+    ("Physics", "https://www.youtube.com/@Theory_of_Physics/shorts")
 ]
 
 YT_CHANNELS = [
@@ -69,10 +52,11 @@ YT_CHANNELS = [
 def process_youtube_playlist(name, url, res):
     video_id = None
     ytdl_opts = {
-        "quiet": True,           # don’t spam logs
+        "quiet": False,           # don’t spam logs
         "skip_download": True,   # don’t download video
         "extract_flat": True,    # don’t go deep into formats,
-        "match_filter": yt_dlp.utils.match_filter_func("duration >= 300"),
+        "match_filter": yt_dlp.utils.match_filter_func("duration >= 300 & live_status!=is_upcoming"),
+        "playlist_items": "1-5",
     }
     with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
         info = ydl.extract_info(url, download=False)
@@ -85,19 +69,24 @@ def process_youtube_playlist(name, url, res):
         return
 
     ytdl_opts = {
-        "quiet": True,           # don’t spam logs
-        "format": f"best[height<={res}]",  # equivalent of -f
+        "quiet": False,           # don’t spam logs
+        "format": f"best",  # equivalent of -f
         'outtmpl': f"{MEDIA_FOLDER}/{name}.mp4",  # equivalent of -o
         "overwrites": True,      # force overwrite existing files
         "ignoreerrors": True,   # skip unavailable/private/deleted videos
         "match_filter": yt_dlp.utils.match_filter_func("duration >= 300"),
+        "extractor_args": {
+            "youtube": {
+                "player_client": ["android", "ios", "web_embedded"]
+            }
+        }
     }
     with yt_dlp.YoutubeDL(ytdl_opts) as ydl:
         rc = ydl.download(f"https://www.youtube.com/watch?v={video_id}")
         if rc == 0:
             logger.info("===> Completed Download")
         else:
-            logger.info("===> Download failed with return code: {rc}")
+            logger.info(f"===> Download failed with return code: {rc}")
 
 
 def process_youtube_shorts(name, url, res):
@@ -162,15 +151,20 @@ if __name__ == "__main__":
     logger.info("Starting the process\n")
 
     today = datetime.today()
-    rem = today.day % 3
 
-    for name, url, res in YT_LIST[rem::3]:
-        clean_name = re.sub(PATTERN, '', name)
-
-        logger.info(f"<=== {clean_name} {url}")
-        file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
-        process_youtube_playlist(clean_name, url, res)
-        time.sleep(300)
+    # for name, url in YT_LIST:
+    for i in range(3):
+        try:
+            name, url = random.choice(YT_LIST)
+            clean_name = re.sub(PATTERN, '', name)
+            logger.info(f"<=== {clean_name} {url}")
+            file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
+            process_youtube_playlist(clean_name, url, RES)
+            time.sleep(10)
+        except Exception as e:
+            logger.error(f"{clean_name} {url} {e}")
+            continue
+            
 
     # name, url, res = random.choice(YT_SHORTS)
     # clean_name = re.sub(PATTERN, '', name)
