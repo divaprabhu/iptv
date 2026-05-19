@@ -6,6 +6,11 @@ from datetime import datetime
 
 import yt_dlp
 
+# from fastapi import FastAPI
+# from fastapi.responses import FileResponse
+# import uvicorn
+
+
 PATTERN = r'[^a-zA-Z0-9]'
 HOST = "0.0.0.0"
 M3U_PORT = 9000
@@ -16,16 +21,28 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
+# app = FastAPI()
+
+# @app.get("/m3u")
+# def serve_m3u():
+#     return FileResponse(path=M3U_FILE, filename=M3U_FILE, media_type="audio/x-mpegurl")
+
+
 RES="720"
 YT_LIST = [
-    ("Curios George", "https://www.youtube.com/@CuriousGeorge/videos"),
-    ("Detective Mehul", "https://www.youtube.com/@MindYourLogic.Riddles/videos"),
-    ("Masha and the Bear", "https://www.youtube.com/@MashaBearEN/videos"),
+    ("Animax", "https://www.youtube.com/@Animax114/videos"),
+    ("Bajarangi", "https://www.youtube.com/playlist?list=PLxfg7jK0uMj6xdhbuB62QBd08BzMNlP5q"),
     ("Cartoon Network", "https://www.youtube.com/@cnindia/videos"),
+    ("Curios George", "https://www.youtube.com/@CuriousGeorge/videos"),
+    ("Detective Mehul", "https://www.youtube.com/@DetectiveMehul.English/videos"),
     ("Discovery", "https://www.youtube.com/@DiscoveryKidsIN/videos"),
+    ("Disney", "https://www.youtube.com/@disneyindia/videos"),
+    ("Masha and the Bear", "https://www.youtube.com/@MashaBearEN/videos"),
+    ("Pinaki", "https://www.youtube.com/@BhootBandhus_SonicGang/videos"),
+    ("Pogo", "https://www.youtube.com/@PogoChannel/videos"),
+    ("Sonic", "https://www.youtube.com/@Sonic-Gang/videos")
     ("Sony", "https://www.youtube.com/@SonyYAY/videos"),
     ("Wow", "https://www.youtube.com/@WowKidzOfficialTV/videos"),
-    ("Bajarangi", "https://www.youtube.com/playlist?list=PLxfg7jK0uMj6xdhbuB62QBd08BzMNlP5q"),
 ]
 
 YT_SHORTS = [
@@ -152,10 +169,10 @@ if __name__ == "__main__":
 
     today = datetime.today()
 
-    # for name, url in YT_LIST:
-    for i in range(3):
+    for name, url in YT_LIST:
+    # for i in range(3):
         try:
-            name, url = random.choice(YT_LIST)
+            # name, url = random.choice(YT_LIST)
             clean_name = re.sub(PATTERN, '', name)
             logger.info(f"<=== {clean_name} {url}")
             file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
@@ -164,10 +181,8 @@ if __name__ == "__main__":
         except Exception as e:
             logger.error(f"{clean_name} {url} {e}")
             continue
-            
 
-    # name, url, res = random.choice(YT_SHORTS)
-    # clean_name = re.sub(PATTERN, '', name)
+
 
     # logger.info(f"<=== {clean_name} {url}")
     # file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
