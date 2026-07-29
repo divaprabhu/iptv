@@ -6,10 +6,6 @@ from datetime import datetime
 
 import yt_dlp
 
-# from fastapi import FastAPI
-# from fastapi.responses import FileResponse
-# import uvicorn
-
 
 PATTERN = r'[^a-zA-Z0-9]'
 HOST = "0.0.0.0"
@@ -21,28 +17,22 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
-# app = FastAPI()
-
-# @app.get("/m3u")
-# def serve_m3u():
-#     return FileResponse(path=M3U_FILE, filename=M3U_FILE, media_type="audio/x-mpegurl")
-
-
 RES="720"
 YT_LIST = [
-    ("Animax", "https://www.youtube.com/@Animax114/videos"),
-    ("Bajarangi", "https://www.youtube.com/playlist?list=PLxfg7jK0uMj6xdhbuB62QBd08BzMNlP5q"),
-    ("Cartoon Network", "https://www.youtube.com/@cnindia/videos"),
+    #("Bheem", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNTgFEWOlBzE3rwLYnpPqFvH"),
+    # ("Cartoon Network", "https://www.youtube.com/@cnindia/videos"),
     ("Curios George", "https://www.youtube.com/@CuriousGeorge/videos"),
     ("Detective Mehul", "https://www.youtube.com/@DetectiveMehul.English/videos"),
-    ("Discovery", "https://www.youtube.com/@DiscoveryKidsIN/videos"),
-    ("Disney", "https://www.youtube.com/@disneyindia/videos"),
-    ("Masha and the Bear", "https://www.youtube.com/@MashaBearEN/videos"),
+    # ("Discovery", "https://www.youtube.com/@DiscoveryKidsIN/videos"),
+    # ("Disney", "https://www.youtube.com/@disneyindia/videos"),
+    ("Krishna", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNQjNcHaHwOmIYv5z1bUbZJS"),
+    # ("Masha and the Bear", "https://www.youtube.com/@MashaBearEN/videos"),
     ("Pinaki", "https://www.youtube.com/@BhootBandhus_SonicGang/videos"),
-    ("Pogo", "https://www.youtube.com/@PogoChannel/videos"),
-    ("Sonic", "https://www.youtube.com/@Sonic-Gang/videos")
-    ("Sony", "https://www.youtube.com/@SonyYAY/videos"),
-    ("Wow", "https://www.youtube.com/@WowKidzOfficialTV/videos"),
+    #("Singham", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNRIWPEkdB9ovz2Lnjhd_Z51"),
+    ("Sonic", "https://www.youtube.com/@Sonic-Gang/videos"),
+    # ("Sony", "https://www.youtube.com/@SonyYAY/videos"),
+    # ("Titoo", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNSHsuxsnjuL3BOsPGXuMDie"),
+    # ("Wow", "https://www.youtube.com/@WowKidzOfficialTV/videos"),
 ]
 
 YT_SHORTS = [
@@ -170,7 +160,7 @@ if __name__ == "__main__":
     today = datetime.today()
 
     for name, url in YT_LIST:
-    # for i in range(3):
+    # for i in range(len(YT_LIST):
         try:
             # name, url = random.choice(YT_LIST)
             clean_name = re.sub(PATTERN, '', name)
@@ -183,6 +173,8 @@ if __name__ == "__main__":
             continue
 
 
+    # name, url, res = random.choice(YT_SHORTS)
+    # clean_name = re.sub(PATTERN, '', name)
 
     # logger.info(f"<=== {clean_name} {url}")
     # file_path = f"{MEDIA_FOLDER}/{clean_name}.mp4"
