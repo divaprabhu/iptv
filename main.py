@@ -19,20 +19,15 @@ logging.basicConfig(level=logging.INFO)
 
 RES="720"
 YT_LIST = [
-    #("Bheem", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNTgFEWOlBzE3rwLYnpPqFvH"),
-    # ("Cartoon Network", "https://www.youtube.com/@cnindia/videos"),
+    ("Cartoon Network", "https://www.youtube.com/@cnindia/videos"),
     ("Curios George", "https://www.youtube.com/@CuriousGeorge/videos"),
     ("Detective Mehul", "https://www.youtube.com/@DetectiveMehul.English/videos"),
-    # ("Discovery", "https://www.youtube.com/@DiscoveryKidsIN/videos"),
-    # ("Disney", "https://www.youtube.com/@disneyindia/videos"),
     ("Krishna", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNQjNcHaHwOmIYv5z1bUbZJS"),
-    # ("Masha and the Bear", "https://www.youtube.com/@MashaBearEN/videos"),
+    ("Masha and the Bear", "https://www.youtube.com/@MashaBearEN/videos"),
     ("Pinaki", "https://www.youtube.com/@BhootBandhus_SonicGang/videos"),
-    #("Singham", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNRIWPEkdB9ovz2Lnjhd_Z51"),
-    ("Sonic", "https://www.youtube.com/@Sonic-Gang/videos"),
-    # ("Sony", "https://www.youtube.com/@SonyYAY/videos"),
-    # ("Titoo", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNSHsuxsnjuL3BOsPGXuMDie"),
-    # ("Wow", "https://www.youtube.com/@WowKidzOfficialTV/videos"),
+    ("Titoo", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNSHsuxsnjuL3BOsPGXuMDie"),
+    ("Wow", "https://www.youtube.com/@WowKidzOfficialTV/videos"),
+    ("Kanha", "https://www.youtube.com/playlist?list=PL2XOPpYaVR49Yox7zeyfLSGAcphS0vkxR"),
 ]
 
 YT_SHORTS = [
