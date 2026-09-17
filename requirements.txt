@@ -1,1 +1,1 @@
-yt-dlp[default]
+yt-dlp

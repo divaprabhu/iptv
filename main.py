@@ -19,15 +19,17 @@ logging.basicConfig(level=logging.INFO)
 
 RES="720"
 YT_LIST = [
-    ("Cartoon Network", "https://www.youtube.com/@cnindia/videos"),
-    ("Curios George", "https://www.youtube.com/@CuriousGeorge/videos"),
+    #("Cartoon Network", "https://www.youtube.com/@cnindia/videos"),
+    ("Bajarangi", "https://www.youtube.com/playlist?list=PLUX4fpHUux5UEb5xXQ8cBJxba-s6rvPn3"),
+    ("Bheem", "https://www.youtube.com/@greengoldtv/videos"),
+    #("Curios George", "https://www.youtube.com/@CuriousGeorge/videos"),
     ("Detective Mehul", "https://www.youtube.com/@DetectiveMehul.English/videos"),
     ("Krishna", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNQjNcHaHwOmIYv5z1bUbZJS"),
     ("Masha and the Bear", "https://www.youtube.com/@MashaBearEN/videos"),
     ("Pinaki", "https://www.youtube.com/@BhootBandhus_SonicGang/videos"),
     ("Titoo", "https://www.youtube.com/playlist?list=PLdhxSHmOPfNSHsuxsnjuL3BOsPGXuMDie"),
     ("Wow", "https://www.youtube.com/@WowKidzOfficialTV/videos"),
-    ("Kanha", "https://www.youtube.com/playlist?list=PL2XOPpYaVR49Yox7zeyfLSGAcphS0vkxR"),
+    #("Kanha", "https://www.youtube.com/playlist?list=PL2XOPpYaVR49Yox7zeyfLSGAcphS0vkxR"),
 ]
 
 YT_SHORTS = [
